@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { Placeholder } from "@/components/Placeholder";
 import { Button } from "@/components/ui/button";
+import { TicketItem } from "@/features/ticket/components/TicketItem";
 import { initialTickets } from "@/lib/data";
 import { ticketsPath } from "@/lib/paths";
 
@@ -16,21 +17,20 @@ const Ticket = async ({ params }: TicketPageProps) => {
   const ticket = initialTickets.find((ticket) => ticket.id === ticketId);
   if (!ticket) {
     return (
-        <Placeholder
-          label="Ticket not found"
-          button={
-            <Button asChild variant="outline">
-              <Link href={ticketsPath()}>Go to Tickets</Link>
-            </Button>
-          }
-        />
+      <Placeholder
+        label="Ticket not found"
+        button={
+          <Button asChild variant="outline">
+            <Link href={ticketsPath()}>Go to Tickets</Link>
+          </Button>
+        }
+      />
     );
   }
 
   return (
-    <div>
-      <h2 className="text-lg">{ticket.title}</h2>
-      <p className="text-sm">{ticket.content}</p>
+    <div className="w-full flex justify-center animate-fade-in-top">
+      <TicketItem ticket={ticket} details />
     </div>
   );
 };
