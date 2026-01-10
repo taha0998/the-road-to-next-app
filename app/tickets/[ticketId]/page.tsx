@@ -1,10 +1,7 @@
-import Link from "next/link";
+import { notFound } from "next/navigation";
 
-import { Placeholder } from "@/components/Placeholder";
-import { Button } from "@/components/ui/button";
 import { TicketItem } from "@/features/ticket/components/TicketItem";
 import { GetTicket } from "@/features/ticket/queries/GetTicket";
-import { ticketsPath } from "@/lib/paths";
 
 type TicketPageProps = {
   params: Promise<{
@@ -16,16 +13,7 @@ const Ticket = async ({ params }: TicketPageProps) => {
   const { ticketId } = await params;
   const ticket = await GetTicket(ticketId);
   if (!ticket) {
-    return (
-      <Placeholder
-        label="Ticket not found"
-        button={
-          <Button asChild variant="outline">
-            <Link href={ticketsPath()}>Go to Tickets</Link>
-          </Button>
-        }
-      />
-    );
+    return notFound();
   }
 
   return (
