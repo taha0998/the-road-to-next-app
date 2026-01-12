@@ -4,6 +4,7 @@ import { Heading } from "@/components/Heading";
 import { Spinner } from "@/components/Spinner";
 import { TicketList } from "@/features/ticket/components/TicketList";
 
+
 const Tickets = () => {
   return (
     <div className="flex-1 flex flex-col gap-y-8">
