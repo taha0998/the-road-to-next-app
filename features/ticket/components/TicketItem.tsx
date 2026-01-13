@@ -15,7 +15,7 @@ type TicketItemProps = {
   details?: boolean;
 };
 
-const TicketItem = ({ ticket, details }: TicketItemProps) => {
+const TicketItem =  ({ ticket, details }: TicketItemProps) => {
   const detailButton = (
     <Button asChild size={"icon"} variant={"outline"}>
       <Link prefetch href={ticketPath(ticket.id)}>
@@ -27,7 +27,7 @@ const TicketItem = ({ ticket, details }: TicketItemProps) => {
   const deleteButton = (
     <form action={deleteTicket.bind(null, ticket.id)}>
       <Button size={"icon"} variant={"outline"} className="cursor-pointer">
-        <LucideTrash className="w-4 h-4"/>
+        <LucideTrash className="w-4 h-4" />
       </Button>
     </form>
   );
