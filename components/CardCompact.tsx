@@ -1,4 +1,3 @@
-import { TicketCreateForm } from "@/components/TicketCreateForm";
 import {
   Card,
   CardContent,
@@ -13,6 +12,7 @@ type CardCompactProps = {
   title: string;
   description?: React.ReactNode;
   footer?: React.ReactNode;
+  content: React.ReactElement;
 };
 
 const CardCompact = ({
@@ -20,6 +20,7 @@ const CardCompact = ({
   title,
   description,
   footer,
+  content,
 }: CardCompactProps) => {
   return (
     <Card className={className}>
@@ -27,9 +28,7 @@ const CardCompact = ({
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <CardContent>
-        <TicketCreateForm />
-      </CardContent>
+      <CardContent>{content}</CardContent>
       {footer && <CardFooter>{footer}</CardFooter>}
     </Card>
   );

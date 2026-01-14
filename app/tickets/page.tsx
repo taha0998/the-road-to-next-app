@@ -4,6 +4,7 @@ import CardCompact from "@/components/CardCompact";
 import { Heading } from "@/components/Heading";
 import { Spinner } from "@/components/Spinner";
 import { TicketList } from "@/features/ticket/components/TicketList";
+import { TicketUpsertForm } from "@/features/ticket/components/TicketUpsertForm";
 
 const Tickets = () => {
   return (
@@ -14,6 +15,7 @@ const Tickets = () => {
         className="w-full max-w-105 self-center"
         title="Create Ticket"
         description="A new ticket will be created"
+        content={<TicketUpsertForm />}
       />
 
       <Suspense fallback={<Spinner />}>
