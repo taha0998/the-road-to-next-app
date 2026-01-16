@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from 'zod'
 
-import { ActionState, fromErrorToActionState } from "@/components/form/utils/fromErrorToActionState";
+import { ActionState, fromErrorToActionState, toActionState } from "@/components/form/utils/fromErrorToActionState";
 import { ticketPath, ticketsPath } from "@/lib/paths";
 import { prisma } from "@/lib/prisma";
 
@@ -20,7 +20,7 @@ export const upsertTicket = async (
   formData: FormData,
 ) => {
   try {
-    const data = upsertTicketShema.parse({  
+    const data = upsertTicketShema.parse({
       title: formData.get("title"),
       content: formData.get('content')
     })
@@ -42,5 +42,5 @@ export const upsertTicket = async (
     redirect(ticketPath(id))
   }
 
-  return { message: 'Ticket created' }
+  return toActionState('SUCCESS', 'Ticket Created')
 };

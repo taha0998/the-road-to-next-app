@@ -1,26 +1,53 @@
 import { ZodError } from "zod"
 
 export type ActionState = {
-    message: string,
-    payload?: FormData
+    status?: "SUCCESS" | "ERROR";
+    message: string;
+    payload?: FormData;
+    fieldError: Record<string, string[] | undefined>;
+    timestamp: number;
+}
+
+export const EMPTY_ACTION_STATE: ActionState = {
+    message: '',
+    fieldError: {},
+    timestamp: Date.now()
 }
 
 export const fromErrorToActionState = (error: unknown, formData: FormData): ActionState => {
     if (error instanceof ZodError) {
         return {
-            message: error.issues[0].message,
-            payload: formData
+            status: "ERROR",
+            message: '',
+            fieldError: error.flatten().fieldErrors,
+            payload: formData,
+            timestamp: Date.now()
         }
     } else if (error instanceof Error) {
         return {
+            status: "ERROR",
             message: error.message,
-            payload: formData
+            fieldError: {},
+            payload: formData,
+            timestamp: Date.now()
         }
     }
     else {
         return {
+            status: "ERROR",
             message: 'An unknown error occured',
-            payload: formData
+            fieldError: {},
+            payload: formData,
+            timestamp: Date.now()
         }
+    }
+}
+
+export const toActionState = (status: ActionState['status'], message: string): ActionState => {
+    return {
+        status,
+        message,
+        fieldError: {},
+        timestamp: Date.now()
     }
 }
