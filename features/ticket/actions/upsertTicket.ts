@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from 'zod'
 
+import { setCookieByKey } from "@/actions/cookies";
 import { ActionState, fromErrorToActionState, toActionState } from "@/components/form/utils/fromErrorToActionState";
 import { ticketPath, ticketsPath } from "@/lib/paths";
 import { prisma } from "@/lib/prisma";
@@ -39,6 +40,7 @@ export const upsertTicket = async (
   revalidatePath(ticketsPath())
 
   if (id) {
+    await setCookieByKey('toast', 'Ticket updated')
     redirect(ticketPath(id))
   }
 
