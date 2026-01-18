@@ -2,30 +2,26 @@ import { Suspense } from "react";
 
 import CardCompact from "@/components/CardCompact";
 import { Heading } from "@/components/Heading";
-import { RedirectToast } from "@/components/RedirectToast";
 import { Spinner } from "@/components/Spinner";
 import { TicketList } from "@/features/ticket/components/TicketList";
 import { TicketUpsertForm } from "@/features/ticket/components/TicketUpsertForm";
 
 const Tickets = () => {
   return (
-    <>
-      <div className="flex-1 flex flex-col gap-y-8">
-        <Heading title="Tickets" description="All your tickets at one place" />
+    <div className="flex-1 flex flex-col gap-y-8">
+      <Heading title="Tickets" description="All your tickets at one place" />
 
-        <CardCompact
-          className="w-full max-w-105 self-center"
-          title="Create Ticket"
-          description="A new ticket will be created"
-          content={<TicketUpsertForm />}
-        />
+      <CardCompact
+        className="w-full max-w-105 self-center"
+        title="Create Ticket"
+        description="A new ticket will be created"
+        content={<TicketUpsertForm />}
+      />
 
-        <Suspense fallback={<Spinner />}>
-          <TicketList />
-        </Suspense>
-      </div>
-      <RedirectToast />
-    </>
+      <Suspense fallback={<Spinner />}>
+        <TicketList />
+      </Suspense>
+    </div>
   );
 };
 export default Tickets;
