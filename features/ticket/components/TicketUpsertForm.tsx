@@ -2,6 +2,7 @@
 import { Ticket } from "@prisma/client";
 import { useActionState } from "react";
 
+import DatePicker from "@/components/DatePicker";
 import { FieldError } from "@/components/form/FieldError";
 import { Form } from "@/components/form/Form";
 import { SubmitButton } from "@/components/form/SubmitButton";
@@ -9,6 +10,7 @@ import { EMPTY_ACTION_STATE } from "@/components/form/utils/fromErrorToActionSta
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { fromCent } from "@/utils/currency";
 
 import { upsertTicket } from "../actions/upsertTicket";
 
@@ -22,8 +24,13 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertProps) => {
     EMPTY_ACTION_STATE,
   );
 
+  const handleSuccess = () => {
+    //TODO rest the date picker
+    console.log("success");
+  };
+
   return (
-    <Form action={action} actionState={actionState}>
+    <Form action={action} actionState={actionState} onSuccess={handleSuccess}>
       <Label htmlFor="title">Title</Label>
       <Input
         id="title"
@@ -45,33 +52,33 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertProps) => {
       />
       <FieldError actionState={actionState} name="content" />
 
-     <div className="flex gap-x-2 mb-1">
-      <div className="w-1/2 flex flex-col gap-y-1">
-       <Label htmlFor="deadline">Deadline</Label>
-      <Input
-        id="deadline"
-        name="deadline"
-        type="date"
-        defaultValue={
+      <div className="flex gap-x-2 mb-1">
+        <div className="w-1/2 flex flex-col gap-y-1">
+          <Label htmlFor="deadline">Deadline</Label>
+          <DatePicker
+            id="deadline"
+            name="deadline"
+            defaultValue={
               (actionState.payload?.get("deadline") as string) ??
               ticket?.deadline
             }
           />
-      <FieldError actionState={actionState} name="deadline" />
+          <FieldError actionState={actionState} name="deadline" />
+        </div>
+        <div className="w-1/2 flex flex-col gap-y-1">
+          <Label htmlFor="bounty">Bounty ($)</Label>
+          <Input
+            id="bounty"
+            name="bounty"
+            type="number"
+            step=".01"
+            defaultValue={
+              (actionState.payload?.get("bounty") as string) ??
+              (ticket?.bounty ? fromCent(ticket?.bounty) : "")
+            }
+          />
+        </div>
       </div>
-      <div className="w-1/2 flex flex-col gap-y-1">
-      <Label htmlFor="bounty" >Bounty ($)</Label>
-      <Input 
-      id="bounty"
-      name="bounty"
-      type="number"
-      step=".01"
-      defaultValue={
-       (actionState.payload?.get('bounty') as string) ?? ticket?.bounty 
-      }
-      />
-      </div>
-     </div>
 
       <SubmitButton label={ticket ? "Update" : "Create"} />
     </Form>

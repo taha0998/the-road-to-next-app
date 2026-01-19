@@ -8,6 +8,7 @@ import { setCookieByKey } from "@/actions/cookies";
 import { ActionState, fromErrorToActionState, toActionState } from "@/components/form/utils/fromErrorToActionState";
 import { ticketPath, ticketsPath } from "@/lib/paths";
 import { prisma } from "@/lib/prisma";
+import { toCent } from "@/utils/currency";
 
 const upsertTicketShema = z.object({
   title: z.string().min(1).max(191),
@@ -30,12 +31,17 @@ export const upsertTicket = async (
       bounty: formData.get('bounty')
     })
 
+    const dbData = {
+      ...data,
+      bounty: toCent(data.bounty),
+    }
+
     await prisma.ticket.upsert({
       where: {
         id: id || '',
       },
-      update: data,
-      create: data
+      update: dbData,
+      create: dbData
     });
 
   } catch (error) {
