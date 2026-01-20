@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 
 import { useActionFeedback } from "./hooks/useActionFeedback";
-import { ActionState } from "./utils/fromErrorToActionState";
+import { ActionState } from "./utils/toActinoStatus";
 
 type FormProps = {
   action: (payload: FormData) => void;

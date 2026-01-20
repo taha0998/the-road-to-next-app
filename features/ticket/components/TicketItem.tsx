@@ -1,19 +1,28 @@
 import { Ticket } from "@prisma/client";
 import clsx from "clsx";
 import {
+  LucideMoreVertical,
   LucidePencil,
   LucideSquareArrowOutUpRight,
   LucideTrash,
 } from "lucide-react";
 import Link from "next/link";
 
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { editTicketPath, ticketPath } from "@/lib/paths";
 import { toCurrencyFromCent } from "@/utils/currency";
 
 import { deleteTicket } from "../actions/deleteTicket";
 import { TICKET_ICONS } from "../constants";
+import { TicketMoreMenu } from "./TicketMoreMenu";
 
 type TicketItemProps = {
   ticket: Ticket;
@@ -30,11 +39,14 @@ const TicketItem = ({ ticket, details }: TicketItemProps) => {
   );
 
   const deleteButton = (
-    <form action={deleteTicket.bind(null, ticket.id)}>
-      <Button size={"icon"} variant={"outline"} className="cursor-pointer">
-        <LucideTrash className="w-4 h-4" />
-      </Button>
-    </form>
+    <ConfirmDialog
+      action={deleteTicket.bind(null, ticket.id)}
+      trigger={
+        <Button variant="outline" size="icon">
+          <LucideTrash className="h-4 w-4" />
+        </Button>
+      }
+    />
   );
 
   const updateButton = (
@@ -43,6 +55,17 @@ const TicketItem = ({ ticket, details }: TicketItemProps) => {
         <LucidePencil className="w-4 h-4" />
       </Link>
     </Button>
+  );
+
+  const moreMenu = (
+    <TicketMoreMenu
+      ticket={ticket}
+      trigger={
+        <Button variant="outline" size="icon">
+          <LucideMoreVertical className="h-4 w-4" />
+        </Button>
+      }
+    />
   );
 
   return (
@@ -69,8 +92,10 @@ const TicketItem = ({ ticket, details }: TicketItemProps) => {
           </span>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <p className="text-sm text-muted-foreground" >{ticket.deadline}</p>
-          <p className="text-sm text-muted-foreground">{toCurrencyFromCent(ticket.bounty)}</p>
+          <p className="text-sm text-muted-foreground">{ticket.deadline}</p>
+          <p className="text-sm text-muted-foreground">
+            {toCurrencyFromCent(ticket.bounty)}
+          </p>
         </CardFooter>
       </Card>
       <div className="flex flex-col gap-y-1 ">
@@ -83,6 +108,7 @@ const TicketItem = ({ ticket, details }: TicketItemProps) => {
           <>
             {updateButton}
             {deleteButton}
+            {moreMenu}
           </>
         )}
       </div>

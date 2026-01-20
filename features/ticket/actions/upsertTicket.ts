@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { z } from 'zod'
 
 import { setCookieByKey } from "@/actions/cookies";
-import { ActionState, fromErrorToActionState, toActionState } from "@/components/form/utils/fromErrorToActionState";
+import { ActionState, fromErrorToActionState, toActionState } from "@/components/form/utils/toActinoStatus";
 import { ticketPath, ticketsPath } from "@/lib/paths";
 import { prisma } from "@/lib/prisma";
 import { toCent } from "@/utils/currency";
