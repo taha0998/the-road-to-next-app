@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import {
   fromErrorToActionState,
   toActionState,
-} from "@/components/form/utils/toActinoStatus";
+} from "@/components/form/utils/toActinoState";
 import { ticketsPath } from "@/lib/paths";
 import { prisma } from "@/lib/prisma";
 

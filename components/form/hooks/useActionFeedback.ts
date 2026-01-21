@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import { ActionState } from "../utils/toActinoStatus";
+import { ActionState } from "../utils/toActinoState";
 
 type OnArgs = {
     actionState: ActionState

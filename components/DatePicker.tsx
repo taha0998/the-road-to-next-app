@@ -65,4 +65,4 @@ const DatePicker = ({
   );
 };
 
-export default DatePicker;
+export { DatePicker };
