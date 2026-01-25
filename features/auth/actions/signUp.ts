@@ -56,8 +56,8 @@ export const signUp = async (_actionStae: ActionState, formData: FormData) => {
         });
 
         const session = await lucia.createSession(user.id, {});
+        
         const sessionCookie = lucia.createSessionCookie(session.id);
-
         (await cookies()).set(
             sessionCookie.name,
             sessionCookie.value,

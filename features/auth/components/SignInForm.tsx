@@ -22,6 +22,7 @@ const SignInForm = () => {
       <Input
         name="password"
         placeholder="Password"
+        type="password"
         defaultValue={actionState.payload?.get("password") as string}
       />
       <FieldError actionState={actionState} name="password" />
