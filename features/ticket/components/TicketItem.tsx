@@ -1,4 +1,4 @@
-import { Ticket } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import clsx from "clsx";
 import {
   LucideMoreVertical,
@@ -22,7 +22,15 @@ import { TICKET_ICONS } from "../constants";
 import { TicketMoreMenu } from "./TicketMoreMenu";
 
 type TicketItemProps = {
-  ticket: Ticket;
+  ticket: Prisma.TicketGetPayload<{
+    include: {
+      user: {
+        select: {
+          username: true;
+        };
+      };
+    };
+  }>;
   details?: boolean;
 };
 
@@ -34,7 +42,6 @@ const TicketItem = ({ ticket, details }: TicketItemProps) => {
       </Link>
     </Button>
   );
-
 
   const updateButton = (
     <Button asChild size={"icon"} variant={"outline"}>
@@ -79,7 +86,9 @@ const TicketItem = ({ ticket, details }: TicketItemProps) => {
           </span>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <p className="text-sm text-muted-foreground">{ticket.deadline}</p>
+          <p className="text-sm text-muted-foreground ">
+            {ticket.deadline} by {ticket.user.username}
+          </p>
           <p className="text-sm text-muted-foreground">
             {toCurrencyFromCent(ticket.bounty)}
           </p>

@@ -5,6 +5,13 @@ export const GetTickets = async () => {
     {
       orderBy: {
         createdAt: 'desc'
+      },
+      include: {
+        user: {
+          select: {
+            username: true
+          }
+        }
       }
     }
   )

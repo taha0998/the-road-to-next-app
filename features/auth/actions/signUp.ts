@@ -2,11 +2,15 @@
 
 import { hash } from '@node-rs/argon2'
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import z from "zod"
 
 import { ActionState, fromErrorToActionState, toActionState } from "@/components/form/utils/toActinoState";
 import { lucia } from '@/lib/lucia';
+import { ticketsPath } from '@/lib/paths';
 import { prisma } from '@/lib/prisma';
+
+import { getAuth } from './getAuth';
 
 const signUpShema = z.object({
     username: z.string().min(1).max(191),
@@ -40,6 +44,9 @@ const signUpShema = z.object({
 
 
 export const signUp = async (_actionStae: ActionState, formData: FormData) => {
+    const {session} = await getAuth();
+    if (session) { redirect(ticketsPath()) }
+
     try {
         const { username, email, password } = signUpShema.parse(
             Object.fromEntries(formData)
@@ -56,7 +63,7 @@ export const signUp = async (_actionStae: ActionState, formData: FormData) => {
         });
 
         const session = await lucia.createSession(user.id, {});
-        
+
         const sessionCookie = lucia.createSessionCookie(session.id);
         (await cookies()).set(
             sessionCookie.name,

@@ -10,6 +10,8 @@ import { lucia } from "@/lib/lucia"
 import { ticketsPath } from "@/lib/paths"
 import { prisma } from "@/lib/prisma"
 
+import { getAuth } from "./getAuth"
+
 
 const signInShema = z.object({
     email: z.string().min(1, { message: 'Is required' }).max(191).email(),
@@ -18,6 +20,9 @@ const signInShema = z.object({
 
 
 export const signIn = async (_actionState: ActionState, formData: FormData) => {
+    const {session} = await getAuth();
+    if(session){redirect(ticketsPath())}
+
     try {
         const { email, password } = signInShema.parse(
             Object.fromEntries(formData)
