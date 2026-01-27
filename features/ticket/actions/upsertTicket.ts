@@ -6,8 +6,9 @@ import { z } from 'zod'
 
 import { setCookieByKey } from "@/actions/cookies";
 import { ActionState, fromErrorToActionState, toActionState } from "@/components/form/utils/toActinoState";
-import { getAuth } from "@/features/auth/actions/getAuth";
-import { signInPath, ticketPath, ticketsPath } from "@/lib/paths";
+import { getAuthOrRedirect } from "@/features/auth/queries/getAuthOrRedirect";
+import { isOwner } from "@/features/auth/utils/isOwner";
+import { ticketPath, ticketsPath } from "@/lib/paths";
 import { prisma } from "@/lib/prisma";
 import { toCent } from "@/utils/currency";
 
@@ -24,11 +25,20 @@ export const upsertTicket = async (
   _actionState: ActionState,
   formData: FormData,
 ) => {
-  const { user } = await getAuth()
-
-  if (!user) { redirect(signInPath()) }
+  const { user } = await getAuthOrRedirect()
 
   try {
+    if (id) {
+      const ticket = await prisma.ticket.findUnique({
+        where: {
+          id,
+        }
+      })
+      if (!ticket || !isOwner(user, ticket)) {
+        return toActionState('ERROR', 'Not authorized')
+      }
+    }
+
     const data = upsertTicketShema.parse({
       title: formData.get("title"),
       content: formData.get('content'),

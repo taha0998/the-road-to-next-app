@@ -15,6 +15,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getAuthOrRedirect } from "@/features/auth/queries/getAuthOrRedirect";
+import { isOwner } from "@/features/auth/utils/isOwner";
 import { editTicketPath, ticketPath } from "@/lib/paths";
 import { toCurrencyFromCent } from "@/utils/currency";
 
@@ -34,7 +36,10 @@ type TicketItemProps = {
   details?: boolean;
 };
 
-const TicketItem = ({ ticket, details }: TicketItemProps) => {
+const TicketItem = async ({ ticket, details }: TicketItemProps) => {
+  const { user } = await getAuthOrRedirect();
+  const isTicketOwner = isOwner(user, ticket);
+
   const detailButton = (
     <Button asChild size={"icon"} variant={"outline"}>
       <Link prefetch href={ticketPath(ticket.id)}>
@@ -43,15 +48,15 @@ const TicketItem = ({ ticket, details }: TicketItemProps) => {
     </Button>
   );
 
-  const updateButton = (
+  const updateButton = isTicketOwner ? (
     <Button asChild size={"icon"} variant={"outline"}>
       <Link prefetch href={editTicketPath(ticket.id)}>
         <LucidePencil className="w-4 h-4" />
       </Link>
     </Button>
-  );
+  ) : null;
 
-  const moreMenu = (
+  const moreMenu = isTicketOwner ? (
     <TicketMoreMenu
       ticket={ticket}
       trigger={
@@ -60,7 +65,7 @@ const TicketItem = ({ ticket, details }: TicketItemProps) => {
         </Button>
       }
     />
-  );
+  ) : null;
 
   return (
     <div

@@ -1,10 +1,16 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import CardCompact from "@/components/CardCompact";
+import { getAuth } from "@/features/auth/actions/getAuth";
 import { SignUpForm } from "@/features/auth/components/SignUpForm";
-import { signInPath } from "@/lib/paths";
+import { signInPath, ticketsPath } from "@/lib/paths";
 
-const signUpPage = () => {
+const signUpPage = async () => {
+  const {user}  = await getAuth();
+  if (user) {
+    redirect(ticketsPath());
+  }
   return (
     <div className="flex flex-1 flex-col justify-center items-center">
       <CardCompact
