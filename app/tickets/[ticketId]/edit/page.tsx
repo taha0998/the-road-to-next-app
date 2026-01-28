@@ -1,10 +1,13 @@
 import { notFound } from "next/navigation";
 
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import CardCompact from "@/components/CardCompact";
+import { Separator } from "@/components/ui/separator";
 import { getAuth } from "@/features/auth/actions/getAuth";
 import { isOwner } from "@/features/auth/utils/isOwner";
 import { TicketUpsertForm } from "@/features/ticket/components/TicketUpsertForm";
 import { GetTicket } from "@/features/ticket/queries/GetTicket";
+import { homePath, ticketPath } from "@/lib/paths";
 
 type TicketUpdateProps = {
   params: Promise<{
@@ -25,13 +28,23 @@ const TicketUpdatePage = async ({ params }: TicketUpdateProps) => {
   }
 
   return (
-    <div className="flex flex-1 flex-col justify-center items-center">
-      <CardCompact
-        className="w-full max-w-105  animate-fade-in-top"
-        title="Edit Ticket"
-        description="Edit an existing ticket"
-        content={<TicketUpsertForm ticket={ticket} />}
+    <div className="flex flex-1 flex-col gap-y-8">
+      <Breadcrumbs
+        breadcrumbs={[
+          { title: "tickets", href: homePath() },
+          { title: ticket.title, href: ticketPath(ticket.id) },
+          { title: "edit" },
+        ]}
       />
+      <Separator />
+      <div className="flex flex-1 flex-col justify-center items-center">
+        <CardCompact
+          className="w-full max-w-105  animate-fade-in-top"
+          title="Edit Ticket"
+          description="Edit an existing ticket"
+          content={<TicketUpsertForm ticket={ticket} />}
+        />
+      </div>
     </div>
   );
 };

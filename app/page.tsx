@@ -1,19 +1,20 @@
-import Link from "next/link";
+import { Suspense } from "react";
 
 import { Heading } from "@/components/Heading";
-import { getAuth } from "@/features/auth/actions/getAuth";
-import { signInPath, ticketsPath } from "@/lib/paths";
+import { Spinner } from "@/components/Spinner";
+import { TicketList } from "@/features/ticket/components/TicketList";
 
-const HomePage = async () => {
-  const { user } = await getAuth();
-  const path = user ? ticketsPath() : signInPath();
+const HomePage = () => {
   return (
     <div className="flex-1 flex flex-col gap-y-8">
-      <Heading title="Home" description="Your home place to start" />
+      <Heading
+        title="All tickets"
+        description="All users tickets at one place to start"
+      />
       <div className="flex-1 flex flex-col items-center">
-        <Link href={path} className="underline">
-          Go to Tickets
-        </Link>
+        <Suspense fallback={<Spinner />}>
+          <TicketList />
+        </Suspense>
       </div>
     </div>
   );

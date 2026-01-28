@@ -10,7 +10,9 @@ import { getAuth } from "./getAuth"
 export const signOut = async () => {
     const { session } = await getAuth();
 
-    if (!session) redirect(signInPath());
+    if (!session) {
+        redirect(signInPath());
+    }
 
     await lucia.invalidateSession(session.id);
 
