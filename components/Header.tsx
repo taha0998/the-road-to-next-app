@@ -1,12 +1,11 @@
 "use client";
-import { LucideKanban, LucideLogOut } from "lucide-react";
+import { LucideKanban } from "lucide-react";
 import Link from "next/link";
 
-import { signOut } from "@/features/auth/actions/signOut";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { homePath, signInPath, signUpPath, ticketsPath } from "@/lib/paths";
+import { homePath, signInPath, signUpPath } from "@/lib/paths";
 
-import { SubmitButton } from "./form/SubmitButton";
+import { AccountDropdown } from "./AccountDropdown";
 import { ThemeSwitcher } from "./theme/ThemeSwitcher";
 import { buttonVariants } from "./ui/button";
 
@@ -19,16 +18,7 @@ const Header = () => {
 
   const navItems = user ? (
     <>
-      <Link
-        href={ticketsPath()}
-        className={buttonVariants({ variant: "default" })}
-      >
-        Tickets
-      </Link>
-
-      <form action={signOut} className="flex items-center gap-2">
-        <SubmitButton label="Sign Out" icon={<LucideLogOut />} />
-      </form>
+      <AccountDropdown user={user} />
     </>
   ) : (
     <>

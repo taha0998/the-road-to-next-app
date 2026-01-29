@@ -1,8 +1,11 @@
 "use client";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { signInPath, signUpPath } from "@/lib/paths";
 import { cn } from "@/lib/utils";
+import { getActivePath } from "@/utils/getActivePath";
 
 import { navItems } from "../constants";
 import { SidebarItem } from "./SidebarItem";
@@ -11,6 +14,12 @@ const Sidebar = () => {
   const [isTransition, setTransition] = useState(false);
   const [isOpen, setOpen] = useState(false);
   const { user, isFetched } = useAuth();
+  const pathname = usePathname();
+  const { activeIndex } = getActivePath(
+    pathname,
+    navItems.map((navItem) => navItem.href),
+    [signUpPath(), signInPath()],
+  );
 
   const handleToggle = (open: boolean) => {
     setTransition(true);
@@ -35,12 +44,13 @@ const Sidebar = () => {
     >
       <div className="px-3 py-2">
         <nav className="space-y-2">
-          {navItems.map((navItem) => {
+          {navItems.map((navItem, index) => {
             return (
               <SidebarItem
                 key={navItem.title}
                 isOpen={isOpen}
                 navItem={navItem}
+                isActive={index === activeIndex}
               />
             );
           })}
