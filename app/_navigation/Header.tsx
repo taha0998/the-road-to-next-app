@@ -2,12 +2,12 @@
 import { LucideKanban } from "lucide-react";
 import Link from "next/link";
 
+import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
+import { buttonVariants } from "@/components/ui/button";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { homePath, signInPath, signUpPath } from "@/lib/paths";
 
 import { AccountDropdown } from "./AccountDropdown";
-import { ThemeSwitcher } from "./theme/ThemeSwitcher";
-import { buttonVariants } from "./ui/button";
 
 const Header = () => {
   const { user, isFetched } = useAuth();

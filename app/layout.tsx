@@ -3,10 +3,11 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { Header } from "@/components/Header";
-import { Sidebar } from "@/components/sidebar/components/Sidebar";
+import { Sidebar } from "@/app/_navigation/sidebar/components/Sidebar";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
+
+import { Header } from "./_navigation/Header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
