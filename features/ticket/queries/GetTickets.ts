@@ -1,8 +1,8 @@
 import { prisma } from "@/lib/prisma";
 
-import { PastedSearchParams } from "../SearchParams";
+import { ParsedSearchParams } from "../SearchParams";
 
-export const GetTickets = async (userId: string | undefined, searchParams: PastedSearchParams) => {
+export const GetTickets = async (userId: string | undefined, searchParams: ParsedSearchParams) => {
   const SearchParams = await searchParams;
   return await prisma.ticket.findMany({
     where: {
@@ -17,12 +17,10 @@ export const GetTickets = async (userId: string | undefined, searchParams: Paste
           contains: SearchParams.search,
           mode: 'insensitive'
         }
-      }]
+      }],
     },
     orderBy: {
-      ...(SearchParams.sort === 'newwest') && { createdAt: 'desc' },
-      ...(SearchParams.sort === 'bounty') && { bounty: 'desc' },
-      ...(SearchParams.sort === 'deadline') && { deadline: 'desc' },
+      [SearchParams.sortKey]: SearchParams.sortValue
     },
     include: {
       user: {
@@ -32,4 +30,5 @@ export const GetTickets = async (userId: string | undefined, searchParams: Paste
       }
     }
   })
+
 }

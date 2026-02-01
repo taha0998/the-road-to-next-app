@@ -1,59 +1,50 @@
 "use client";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useQueryStates } from "nuqs";
 
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { sortOptions, sortParser } from "@/features/ticket/SearchParams";
 
 type Option = {
   label: string;
-  value: string;
+  sortKey: string;
+  sortValue: string;
 };
 
 type SortSelectProps = {
-  defaultValue: string;
   options: Option[];
 };
 
-const SortSelect = ({ defaultValue, options }: SortSelectProps) => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
+const SortSelect = ({ options }: SortSelectProps) => {
+  const [sort, setSort] = useQueryStates(sortParser, sortOptions);
 
-  const handleSort = (value: string) => {
-    const params = new URLSearchParams(searchParams);
+  const handleSort = (sortKey: string) => {
+    const sortValue = options.find(
+      (option) => option.sortKey === sortKey,
+    )?.sortValue;
 
-    if (value === defaultValue) {
-      params.delete("sort");
-    } else if (value) {
-      params.set("sort", value);
-    } else {
-      params.delete("sort");
-    }
-
-    replace(`${pathname}?${params.toString()}`, {
-      scroll: false,
-    });
+    setSort({ sortKey, sortValue });
   };
 
   return (
-    <Select
-      defaultValue={searchParams.get("sort")?.toString() || defaultValue}
-      onValueChange={handleSort}
-    >
+    <Select defaultValue={sort.sortKey} onValueChange={handleSort}>
       <SelectTrigger>
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
-        {options.map((option) => (
-          <SelectItem key={option.value} value={option.value}>
-            {option.label}
-          </SelectItem>
-        ))}
+        <SelectGroup>
+          {options.map((option) => (
+            <SelectItem key={option.sortKey} value={option.sortKey}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
       </SelectContent>
     </Select>
   );

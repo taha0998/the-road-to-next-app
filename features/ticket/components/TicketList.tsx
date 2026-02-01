@@ -4,11 +4,11 @@ import { SortSelect } from "@/components/SortSelect";
 import { TicketItem } from "@/features/ticket/components/TicketItem";
 import { GetTickets } from "@/features/ticket/queries/GetTickets";
 
-import { PastedSearchParams } from "../SearchParams";
+import { ParsedSearchParams } from "../SearchParams";
 
 type TicketListProps = {
   userId?: string;
-  searchParams: PastedSearchParams;
+  searchParams: ParsedSearchParams;
 };
 
 const TicketList = async ({ userId, searchParams }: TicketListProps) => {
@@ -18,11 +18,10 @@ const TicketList = async ({ userId, searchParams }: TicketListProps) => {
       <div className="w-full max-w-105 flex gap-x-2">
         <SearchInput placeholder="Search tickets..." />
         <SortSelect
-          defaultValue="newest"
           options={[
-            { label: "Newest", value: "newest" },
-            { label: "Bounty", value: "bounty" },
-            { label: "Deadline", value: "deadline" },
+            { label: "Newest", sortKey: "createdAt", sortValue: "desc" },
+            { label: "Bounty", sortKey: "bounty", sortValue: "desc" },
+            { label: "Deadline", sortKey: "deadline", sortValue: "desc" },
           ]}
         />
       </div>
