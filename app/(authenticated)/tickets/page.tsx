@@ -18,14 +18,12 @@ const Tickets = async ({ searchParams }: TicketsProps) => {
   return (
     <div className="flex-1 flex flex-col gap-y-8">
       <Heading title="My tickets" description="All my tickets at one place" />
-
       <CardCompact
         className="w-full max-w-105 self-center"
         title="Create Ticket"
         description="A new ticket will be created"
         content={<TicketUpsertForm />}
       />
-
       <Suspense fallback={<Spinner />}>
         <TicketList
           userId={user?.id}
