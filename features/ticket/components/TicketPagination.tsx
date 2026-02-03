@@ -1,16 +1,31 @@
 "use client";
 import { useQueryStates } from "nuqs";
 
-import { Pagination } from "@/components/Pagination";
+import {
+  Pagination,
+  paginationTicketMatadataObject,
+} from "@/components/Pagination";
 
 import { paginationOptions, paginationParser } from "../SearchParams";
 
-const TicketPagination = () => {
+type TicketPaginationProps = {
+  paginationTicketMatadata: paginationTicketMatadataObject;
+};
+
+const TicketPagination = ({
+  paginationTicketMatadata,
+}: TicketPaginationProps) => {
   const [pagination, setPagination] = useQueryStates(
     paginationParser,
     paginationOptions,
   );
-  return <Pagination pagination={pagination} onPagination={setPagination} />;
+  return (
+    <Pagination
+      pagination={pagination}
+      onPagination={setPagination}
+      paginationMetadata={paginationTicketMatadata}
+    />
+  );
 };
 
 export { TicketPagination };

@@ -6,16 +6,28 @@ type PaginationObject = {
   page: number;
   size: number;
 };
+export type paginationTicketMatadataObject = {
+  count: number;
+  hasNextPage: boolean;
+};
 
 type PaginationProps = {
   pagination: PaginationObject;
   onPagination: (pagination: PaginationObject) => void;
+  paginationMetadata: paginationTicketMatadataObject;
 };
 
-const Pagination = ({ pagination, onPagination }: PaginationProps) => {
-  const startedItemNumber = pagination.page * pagination.size + 1;
-  const lastItemNumber = startedItemNumber + (pagination.size - 1);
-  const label = `${startedItemNumber}-${lastItemNumber} of X`;
+const Pagination = ({
+  pagination,
+  onPagination,
+  paginationMetadata,
+}: PaginationProps) => {
+  const count = paginationMetadata.count;
+  const startOffset = pagination.page * pagination.size + 1;
+  const endOffset = startOffset + (pagination.size - 1);
+  const fixedEndOffset = Math.min(endOffset, count);
+
+  const label = `${startOffset}-${fixedEndOffset} of ${count}`;
 
   useEffect(() => {
     if (pagination.page < 0) {
@@ -31,7 +43,11 @@ const Pagination = ({ pagination, onPagination }: PaginationProps) => {
   };
 
   const nextPage = (
-    <Button variant="outline" onClick={handleNext}>
+    <Button
+      variant="outline"
+      onClick={handleNext}
+      disabled={!paginationMetadata.hasNextPage}
+    >
       Next
     </Button>
   );

@@ -23,7 +23,6 @@ export const paginationOptions = {
     clearOnDefault: true
 }
 
-
 export const searchParamsCache = createSearchParamsCache({
     search: searchParser,
     ...sortParser,
