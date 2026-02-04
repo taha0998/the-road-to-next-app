@@ -4,6 +4,7 @@ import { ParsedSearchParams } from "../SearchParams";
 
 export const GetTickets = async (userId: string | undefined, searchParams: ParsedSearchParams) => {
   const SearchParams = await searchParams;
+  const fixedPage = SearchParams.page < 0 ? 0 : SearchParams.page;
   const where = {
     userId,
     OR: [{
@@ -18,13 +19,9 @@ export const GetTickets = async (userId: string | undefined, searchParams: Parse
       }
     }],
   };
-
-  const skip = SearchParams.page * SearchParams.size;
+  const skip = fixedPage * SearchParams.size;
   const take = SearchParams.size;
 
-  // const tickets = 
-
-  // const count = 
   const [tickets, count] = await prisma.$transaction([
     prisma.ticket.findMany({
       where,
@@ -40,7 +37,8 @@ export const GetTickets = async (userId: string | undefined, searchParams: Parse
           }
         }
       }
-    }),
+    })
+    ,
     prisma.ticket.count({
       where,
     })
@@ -50,7 +48,7 @@ export const GetTickets = async (userId: string | undefined, searchParams: Parse
     list: tickets,
     metadata: {
       count,
-      hasNextPage: count > skip + take
+      hasNextPage: count > (skip + take)
     },
   }
 

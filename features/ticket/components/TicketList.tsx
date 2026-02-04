@@ -36,7 +36,7 @@ const TicketList = async ({ userId, searchParams }: TicketListProps) => {
         <Placeholder label="No ticket found" />
       )}
       <div className="w-full max-w-105 mt-4">
-        <TicketPagination paginationTicketMatadata={ticketMetadata} />
+        <TicketPagination paginationMetadata={ticketMetadata} />
       </div>
     </div>
   );

@@ -19,7 +19,6 @@ const upsertTicketShema = z.object({
   bounty: z.coerce.number().positive(),
 })
 
-
 export const upsertTicket = async (
   id: string | undefined,
   _actionState: ActionState,

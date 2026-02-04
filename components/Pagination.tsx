@@ -6,7 +6,7 @@ type PaginationObject = {
   page: number;
   size: number;
 };
-export type paginationTicketMatadataObject = {
+export type PaginationMetadata = {
   count: number;
   hasNextPage: boolean;
 };
@@ -14,7 +14,7 @@ export type paginationTicketMatadataObject = {
 type PaginationProps = {
   pagination: PaginationObject;
   onPagination: (pagination: PaginationObject) => void;
-  paginationMetadata: paginationTicketMatadataObject;
+  paginationMetadata: PaginationMetadata;
 };
 
 const Pagination = ({
@@ -23,39 +23,40 @@ const Pagination = ({
   paginationMetadata,
 }: PaginationProps) => {
   const count = paginationMetadata.count;
-  const startOffset = pagination.page * pagination.size + 1;
-  const endOffset = startOffset + (pagination.size - 1);
-  const fixedEndOffset = Math.min(endOffset, count);
+  const hasNextPage = paginationMetadata.hasNextPage;
+  const firstItem = pagination.page * pagination.size + 1;
+  const lastItem = firstItem + (pagination.size - 1);
+  const fixedLastItem = Math.min(lastItem, count);
 
-  const label = `${startOffset}-${fixedEndOffset} of ${count}`;
+  const label = `${firstItem}-${fixedLastItem} of ${count}`;
+
+  const handleNext = () => {
+    onPagination({ ...pagination, page: pagination.page + 1 });
+  };
+  const handlePrev = () => {
+    onPagination({ ...pagination, page: pagination.page - 1 });
+  };
 
   useEffect(() => {
     if (pagination.page < 0) {
       onPagination({ ...pagination, page: 0 });
     }
-  }, [pagination, onPagination]);
+    if (firstItem > count) {
+      const fixMaxPages = Math.floor(count / pagination.size);
+      onPagination({ ...pagination, page: fixMaxPages });
+    }
+  }, [pagination, onPagination, count, firstItem]);
 
-  const handleNext = () => {
-    onPagination({ ...pagination, page: pagination.page + 1 });
-  };
-  const hanldePrev = () => {
-    onPagination({ ...pagination, page: pagination.page - 1 });
-  };
-
-  const nextPage = (
-    <Button
-      variant="outline"
-      onClick={handleNext}
-      disabled={!paginationMetadata.hasNextPage}
-    >
+  const nextButton = (
+    <Button variant="outline" disabled={!hasNextPage} onClick={handleNext}>
       Next
     </Button>
   );
-  const previous = (
+  const prevButton = (
     <Button
       variant="outline"
       disabled={pagination.page < 1}
-      onClick={hanldePrev}
+      onClick={handlePrev}
     >
       Prev
     </Button>
@@ -64,11 +65,12 @@ const Pagination = ({
   return (
     <div className="flex justify-between items-center">
       {label}
-      <div className="flex gap-2">
-        {previous}
-        {nextPage}
+      <div className="flex justify-center items-center gap-2">
+        {prevButton}
+        {nextButton}
       </div>
     </div>
   );
 };
+
 export { Pagination };

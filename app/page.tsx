@@ -17,11 +17,9 @@ const HomePage = ({ searchParams }: HomePageProps) => {
         title="All tickets"
         description="All users tickets at one place to start"
       />
-      <div className="flex-1 flex flex-col items-center">
-        <Suspense fallback={<Spinner />}>
-          <TicketList searchParams={searchParamsCache.parse(searchParams)} />
-        </Suspense>
-      </div>
+      <Suspense fallback={<Spinner />}>
+        <TicketList searchParams={searchParamsCache.parse(searchParams)} />
+      </Suspense>
     </div>
   );
 };
