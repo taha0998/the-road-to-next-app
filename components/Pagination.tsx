@@ -1,5 +1,14 @@
 import { useEffect } from "react";
 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { Button } from "./ui/button";
 
 type PaginationObject = {
@@ -62,10 +71,33 @@ const Pagination = ({
     </Button>
   );
 
+  const handleChangeSize = (value: string) => {
+    onPagination({ page: 0, size: parseInt(value) });
+  };
+
+  const selectSize = (
+    <Select
+      defaultValue={pagination.size.toString()}
+      onValueChange={handleChangeSize}
+    >
+      <SelectTrigger>
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectItem value="3">3</SelectItem>
+          <SelectItem value="5">5</SelectItem>
+          <SelectItem value="10">10</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  );
+
   return (
     <div className="flex justify-between items-center">
       {label}
       <div className="flex justify-center items-center gap-2">
+        {selectSize}
         {prevButton}
         {nextButton}
       </div>
