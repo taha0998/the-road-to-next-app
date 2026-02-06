@@ -1,14 +1,12 @@
-
 import { GetTickets } from "@/features/ticket/queries/GetTickets";
+import { searchParamsCache } from "@/features/ticket/SearchParams";
 
-export async function GET() {
-    const { list, metadata } = await GetTickets(undefined, Promise.resolve({
-        search: '',
-        sortKey: 'createdAt',
-        sortValue: 'desc',
-        page: 0,
-        size: 5
-    }))
+export async function GET(request: Request) {
+    const { searchParams } = new URL(request.url);
+    const untypedSearchParams = Object.fromEntries(searchParams);
+    const typedSearchParams = searchParamsCache.parse(untypedSearchParams)
+
+    const { list, metadata } = await GetTickets(undefined, Promise.resolve(typedSearchParams))
 
     return Response.json({ list, metadata })
 }
