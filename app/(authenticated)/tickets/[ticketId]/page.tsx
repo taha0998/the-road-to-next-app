@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Separator } from "@/components/ui/separator";
+import { CommentSection } from "@/features/comments/components/CommentSection";
 import { TicketItem } from "@/features/ticket/components/TicketItem";
 import { GetTicket } from "@/features/ticket/queries/GetTicket";
 import { homePath } from "@/lib/paths";
@@ -20,7 +21,7 @@ const Ticket = async ({ params }: TicketPageProps) => {
   }
 
   return (
-    <div className="flex flex-1 flex-col gap-y-8">
+    <div className="flex flex-1 flex-col gap-y-4">
       <Breadcrumbs
         breadcrumbs={[
           { title: "tickets", href: homePath() },
@@ -28,8 +29,11 @@ const Ticket = async ({ params }: TicketPageProps) => {
         ]}
       />
       <Separator />
-      <div className="w-full flex justify-center animate-fade-in-top">
+      <div className="w-full flex justify-center animate-fade-in-top pt-4">
         <TicketItem ticket={ticket} details />
+      </div>
+      <div className="w-full flex flex-1 justify-center animate-fade-in-top">
+        <CommentSection ticket={ticket} />
       </div>
     </div>
   );

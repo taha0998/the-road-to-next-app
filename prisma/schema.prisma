@@ -15,6 +15,7 @@ model User {
   passwordHash String
   sessions     Session[]
   tickets      Ticket[]
+  Comment      Comment[]
 }
 
 model Session {
@@ -37,8 +38,20 @@ model Ticket {
   bounty    Int
   userId    String
   user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Comment   Comment[]
 
   @@index([userId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content   String   @db.VarChar(1024)
+  userId    String
+  ticketId  String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ticket    Ticket   @relation(fields: [ticketId], references: [id])
 }
 
 enum TicketStatus {

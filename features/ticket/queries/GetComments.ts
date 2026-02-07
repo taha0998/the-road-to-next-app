@@ -1,0 +1,19 @@
+import { prisma } from "@/lib/prisma"
+
+export const GetComments = async (ticketId: string) => {
+    return await prisma.comment.findMany({
+        where: {
+            ticketId,
+        },
+        orderBy: {
+            createdAt: 'desc'
+        },
+        include: {
+            user: {
+                select: {
+                    email: true
+                }
+            }
+        }
+    })
+}
