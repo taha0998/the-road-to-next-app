@@ -2,9 +2,8 @@ import { notFound } from "next/navigation";
 
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Separator } from "@/components/ui/separator";
-import { CommentSection } from "@/features/comments/components/CommentSection";
 import { TicketItem } from "@/features/ticket/components/TicketItem";
-import { GetTicket } from "@/features/ticket/queries/GetTicket";
+import { GetTicket } from "@/features/ticket/queries/getTicket";
 import { homePath } from "@/lib/paths";
 
 type TicketPageProps = {
@@ -31,9 +30,6 @@ const Ticket = async ({ params }: TicketPageProps) => {
       <Separator />
       <div className="w-full flex justify-center animate-fade-in-top pt-4">
         <TicketItem ticket={ticket} details />
-      </div>
-      <div className="w-full flex flex-1 justify-center animate-fade-in-top">
-        <CommentSection ticket={ticket} />
       </div>
     </div>
   );

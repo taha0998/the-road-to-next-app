@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { getAuth } from "@/features/auth/actions/getAuth";
 import { isOwner } from "@/features/auth/utils/isOwner";
 import { TicketUpsertForm } from "@/features/ticket/components/TicketUpsertForm";
-import { GetTicket } from "@/features/ticket/queries/GetTicket";
+import { GetTicket } from "@/features/ticket/queries/getTicket";
 import { homePath, ticketPath } from "@/lib/paths";
 
 type TicketUpdateProps = {

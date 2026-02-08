@@ -1,4 +1,4 @@
-import { GetTickets } from "@/features/ticket/queries/GetTickets";
+import { GetTickets } from "@/features/ticket/queries/getTickets";
 import { searchParamsCache } from "@/features/ticket/SearchParams";
 
 export async function GET(request: Request) {

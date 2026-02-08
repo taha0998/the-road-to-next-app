@@ -1,12 +1,11 @@
 import { prisma } from "@/lib/prisma"
 
-export const GetComments = async (ticketId: string) => {
+
+
+export const getComments = async (ticketId: string) => {
     return await prisma.comment.findMany({
         where: {
             ticketId,
-        },
-        orderBy: {
-            createdAt: 'desc'
         },
         include: {
             user: {
@@ -14,6 +13,9 @@ export const GetComments = async (ticketId: string) => {
                     email: true
                 }
             }
-        }
+        },
+        orderBy: {
+            createdAt: 'desc'
+        },
     })
-}
+};
