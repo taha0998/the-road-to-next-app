@@ -1,4 +1,4 @@
-import { getTicket } from "@/features/ticket/queries/getTicket";
+import { getTicket } from "@/features/ticket/queries/get-ticket";
 
 type ParamsProps = {
     params: Promise<{

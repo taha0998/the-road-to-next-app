@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Separator } from "@/components/ui/separator";
 import { TicketItem } from "@/features/ticket/components/TicketItem";
-import { getTicket } from "@/features/ticket/queries/getTicket";
+import { getTicket } from "@/features/ticket/queries/get-ticket";
 import { homePath } from "@/lib/paths";
 
 type TicketPageProps = {
