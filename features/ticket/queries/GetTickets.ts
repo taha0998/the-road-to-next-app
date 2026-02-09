@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 
 import { ParsedSearchParams } from "../SearchParams";
 
-export const GetTickets = async (userId: string | undefined, searchParams: ParsedSearchParams) => {
+export const getTickets = async (userId: string | undefined, searchParams: ParsedSearchParams) => {
   const SearchParams = await searchParams;
   const fixedPage = SearchParams.page < 0 ? 0 : SearchParams.page;
   const where = {

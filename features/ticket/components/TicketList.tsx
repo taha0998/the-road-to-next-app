@@ -1,6 +1,6 @@
 import { Placeholder } from "@/components/Placeholder";
 import { TicketItem } from "@/features/ticket/components/TicketItem";
-import { GetTickets } from "@/features/ticket/queries/getTickets";
+import { getTickets } from "@/features/ticket/queries/getTickets";
 
 import { ParsedSearchParams } from "../SearchParams";
 import { TicketPagination } from "./TicketPagination";
@@ -13,7 +13,7 @@ type TicketListProps = {
 };
 
 const TicketList = async ({ userId, searchParams }: TicketListProps) => {
-  const { list: tickets, metadata: ticketMetadata } = await GetTickets(
+  const { list: tickets, metadata: ticketMetadata } = await getTickets(
     userId,
     searchParams,
   );

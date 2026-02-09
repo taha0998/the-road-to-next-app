@@ -1,4 +1,4 @@
-import { GetTicket } from "@/features/ticket/queries/getTicket";
+import { getTicket } from "@/features/ticket/queries/getTicket";
 
 type ParamsProps = {
     params: Promise<{
@@ -8,7 +8,7 @@ type ParamsProps = {
 
 export async function GET(_request: Request, { params }: ParamsProps) {
     const { ticketId } = await params;
-    const ticket = await GetTicket(ticketId);
+    const ticket = await getTicket(ticketId);
 
     return Response.json({ ticket })
 }

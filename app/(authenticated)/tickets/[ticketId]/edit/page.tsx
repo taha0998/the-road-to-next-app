@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { getAuth } from "@/features/auth/actions/getAuth";
 import { isOwner } from "@/features/auth/utils/isOwner";
 import { TicketUpsertForm } from "@/features/ticket/components/TicketUpsertForm";
-import { GetTicket } from "@/features/ticket/queries/getTicket";
+import { getTicket } from "@/features/ticket/queries/getTicket";
 import { homePath, ticketPath } from "@/lib/paths";
 
 type TicketUpdateProps = {
@@ -17,7 +17,7 @@ type TicketUpdateProps = {
 
 const TicketUpdatePage = async ({ params }: TicketUpdateProps) => {
   const { ticketId } = await params;
-  const ticket = await GetTicket(ticketId);
+  const ticket = await getTicket(ticketId);
   const { user } = await getAuth();
 
   const isTicketFound = !!ticket;
