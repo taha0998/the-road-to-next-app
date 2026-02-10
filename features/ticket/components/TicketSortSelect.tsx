@@ -1,9 +1,7 @@
 "use client";
 
 import { useQueryStates } from "nuqs";
-
 import { SortSelect, SortSelectOption } from "@/components/SortSelect";
-
 import { sortOptions, sortParser } from "../SearchParams";
 
 type TicketSortSelectProps = {

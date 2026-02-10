@@ -1,12 +1,10 @@
 "use client";
 import { useActionState } from "react";
-
 import { FieldError } from "@/components/form/FieldError";
 import { Form } from "@/components/form/Form";
 import { SubmitButton } from "@/components/form/SubmitButton";
 import { EMPTY_ACTION_STATE } from "@/components/form/utils/toActinoState";
 import { Input } from "@/components/ui/input";
-
 import { signUp } from "../actions/signUp";
 
 const SignUpForm = () => {

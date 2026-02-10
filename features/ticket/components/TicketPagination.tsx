@@ -1,9 +1,7 @@
 "use client";
 import { useQueryState, useQueryStates } from "nuqs";
 import { useEffect, useRef } from "react";
-
 import { Pagination, PaginationMetadata } from "@/components/Pagination";
-
 import {
   paginationOptions,
   paginationParser,

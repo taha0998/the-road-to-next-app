@@ -1,10 +1,8 @@
 'use server'
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-
 import { lucia } from "@/lib/lucia";
 import { signInPath } from "@/lib/paths";
-
 import { getAuth } from "./getAuth"
 
 export const signOut = async () => {

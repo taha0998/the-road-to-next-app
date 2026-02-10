@@ -1,0 +1,36 @@
+'use server';
+import { revalidatePath } from "next/cache"
+import z from "zod"
+import { ActionState, fromErrorToActionState, toActionState } from "@/components/form/utils/toActinoState"
+import { getAuthOrRedirect } from "@/features/auth/queries/getAuthOrRedirect"
+import { ticketPath } from "@/lib/paths"
+import { prisma } from "@/lib/prisma"
+
+
+const createCommentShema = z.object({
+    content: z.string().min(1).max(1024)
+})
+
+export const createComment = async (
+    ticketId: string,
+    _actionState: ActionState,
+    formData: FormData,
+) => {
+    const { user } = await getAuthOrRedirect();
+
+    try {
+        const data = createCommentShema.parse(Object.fromEntries(formData));
+        await prisma.comment.create({
+            data: {
+                userId: user.id,
+                ticketId,
+                ...data,
+            },
+        });
+    } catch (error) {
+        return fromErrorToActionState(error);
+    }
+
+    revalidatePath(ticketPath(ticketId));
+    return toActionState("SUCCESS", "Comment created");
+};

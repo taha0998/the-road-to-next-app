@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import CardCompact from "@/components/CardCompact";
 import { Separator } from "@/components/ui/separator";

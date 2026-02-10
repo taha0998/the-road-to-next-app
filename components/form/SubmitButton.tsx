@@ -3,7 +3,6 @@ import clsx from "clsx";
 import { LucideLoader2 } from "lucide-react";
 import { cloneElement, HTMLAttributes } from "react";
 import { useFormStatus } from "react-dom";
-
 import { Button } from "../ui/button";
 
 type SubmitButtonProps = {

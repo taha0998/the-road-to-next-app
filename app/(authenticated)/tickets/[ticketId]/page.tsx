@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Separator } from "@/components/ui/separator";
 import { TicketItem } from "@/features/ticket/components/TicketItem";
@@ -12,11 +11,11 @@ type TicketPageProps = {
   }>;
 };
 
-const Ticket = async ({ params }: TicketPageProps) => {
+const TicketPage = async ({ params }: TicketPageProps) => {
   const { ticketId } = await params;
   const ticket = await getTicket(ticketId);
   if (!ticket) {
-    return notFound();
+    notFound();
   }
 
   return (
@@ -34,4 +33,4 @@ const Ticket = async ({ params }: TicketPageProps) => {
     </div>
   );
 };
-export default Ticket;
+export default TicketPage;

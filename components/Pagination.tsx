@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-
 import {
   Select,
   SelectContent,
@@ -8,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { Button } from "./ui/button";
 
 type PaginationObject = {

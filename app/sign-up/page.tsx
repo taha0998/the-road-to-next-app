@@ -1,5 +1,4 @@
 import Link from "next/link";
-
 import CardCompact from "@/components/CardCompact";
 import { SignUpForm } from "@/features/auth/components/SignUpForm";
 import { signInPath } from "@/lib/paths";

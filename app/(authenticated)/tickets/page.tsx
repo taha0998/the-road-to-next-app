@@ -1,6 +1,5 @@
 import { SearchParams } from "nuqs/server";
 import { Suspense } from "react";
-
 import CardCompact from "@/components/CardCompact";
 import { Heading } from "@/components/Heading";
 import { Spinner } from "@/components/Spinner";
@@ -13,7 +12,7 @@ type TicketsProps = {
   searchParams: Promise<SearchParams>;
 };
 
-const Tickets = async ({ searchParams }: TicketsProps) => {
+const TicketsPage = async ({ searchParams }: TicketsProps) => {
   const { user } = await getAuth();
   return (
     <div className="flex-1 flex flex-col gap-y-8">
@@ -33,4 +32,4 @@ const Tickets = async ({ searchParams }: TicketsProps) => {
     </div>
   );
 };
-export default Tickets;
+export default TicketsPage;

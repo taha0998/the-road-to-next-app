@@ -1,9 +1,7 @@
 "use client";
 
 import { useQueryState } from "nuqs";
-
 import { SearchInput } from "@/components/SearchInput";
-
 import { searchParser } from "../SearchParams";
 
 type TicketSearchInputProps = {
