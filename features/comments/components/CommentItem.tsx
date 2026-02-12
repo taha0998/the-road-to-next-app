@@ -1,12 +1,12 @@
 import { Card } from "@/components/ui/card";
 import { CommentWithMetada } from "../types";
-import { CommentDeleteButton } from "./CommentDeleteButton";
 
 type CommentItemProps = {
   comment: CommentWithMetada;
+  buttons: React.ReactNode;
 };
 
-const CommentItem = ({ comment }: CommentItemProps) => {
+const CommentItem = ({ comment, buttons }: CommentItemProps) => {
   return (
     <div className="flex gap-2">
       <Card className="p-4 flex flex-1 flex-col gap-y-1">
@@ -20,9 +20,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
         </div>
         <p className="whitespace-pre-line">{comment.content}</p>
       </Card>
-      <div className="flex flex-col gap-1">
-        <CommentDeleteButton id={comment.id} />
-      </div>
+      <div className="flex flex-col gap-1">{buttons}</div>
     </div>
   );
 };
