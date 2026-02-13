@@ -17,6 +17,7 @@ import {
 import { getAuthOrRedirect } from "@/features/auth/queries/getAuthOrRedirect";
 import { isOwner } from "@/features/auth/utils/isOwner";
 import { Comments } from "@/features/comments/components/Comments";
+import { CommentWithMetada } from "@/features/comments/types";
 import { editTicketPath, ticketPath } from "@/lib/paths";
 import { toCurrencyFromCent } from "@/utils/currency";
 import { TICKET_ICONS } from "../constants";
@@ -33,9 +34,10 @@ type TicketItemProps = {
     };
   }>;
   details?: boolean;
+  comments?: CommentWithMetada[];
 };
 
-const TicketItem = async ({ ticket, details }: TicketItemProps) => {
+const TicketItem = async ({ ticket, details, comments }: TicketItemProps) => {
   const { user } = await getAuthOrRedirect();
   const isTicketOwner = isOwner(user, ticket);
 
@@ -113,7 +115,7 @@ const TicketItem = async ({ ticket, details }: TicketItemProps) => {
           )}
         </div>
       </div>
-      {details && <Comments ticketId={ticket.id} />}
+      {details && <Comments ticketId={ticket.id} comments={comments} />}
     </div>
   );
 };

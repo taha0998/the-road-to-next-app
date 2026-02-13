@@ -19,7 +19,11 @@ const CommentCreateForm = ({ ticketId }: CommentFormProps) => {
   return (
     <>
       <Form action={action} actionState={actionState}>
-        <Textarea name="content" placeholder="What's on your mind..." />
+        <Textarea
+          name="content"
+          placeholder="What's on your mind..."
+          defaultValue={actionState.payload?.get("content") as string}
+        />
         <FieldError actionState={actionState} name="content" />
         <SubmitButton label="Comment" />
       </Form>
