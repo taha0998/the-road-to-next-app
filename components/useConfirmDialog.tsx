@@ -19,7 +19,7 @@ type UseConfirmDialogProps = {
   description?: string;
   action: () => Promise<ActionState>;
   trigger: React.ReactElement<HTMLAttributes<HTMLElement>>;
-  onSuccess: (actionState: ActionState) => void;
+  onSuccess?: (actionState: ActionState) => void;
 };
 
 const useConfirmDialog = ({
@@ -39,7 +39,7 @@ const useConfirmDialog = ({
 
   const handleSuccess = () => {
     setIsOpen(false);
-    onSuccess(actionState);
+    onSuccess?.(actionState);
   };
 
   const dialog = (
