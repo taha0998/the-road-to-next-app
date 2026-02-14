@@ -7,5 +7,5 @@ export type CommentWithMetada = Prisma.CommentGetPayload<{
                 username: true;
             }
         },
-    }
-}>
+    },
+}> & { isOwner: boolean };

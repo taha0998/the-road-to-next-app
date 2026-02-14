@@ -14,10 +14,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getAuthOrRedirect } from "@/features/auth/queries/getAuthOrRedirect";
-import { isOwner } from "@/features/auth/utils/isOwner";
-import { Comments } from "@/features/comments/components/Comments";
-import { CommentWithMetada } from "@/features/comments/types";
 import { editTicketPath, ticketPath } from "@/lib/paths";
 import { toCurrencyFromCent } from "@/utils/currency";
 import { TICKET_ICONS } from "../constants";
@@ -32,15 +28,12 @@ type TicketItemProps = {
         };
       };
     };
-  }>;
+  }> & { isOwner: boolean };
   details?: boolean;
-  comments?: CommentWithMetada[];
+  comments?: React.ReactNode;
 };
 
-const TicketItem = async ({ ticket, details, comments }: TicketItemProps) => {
-  const { user } = await getAuthOrRedirect();
-  const isTicketOwner = isOwner(user, ticket);
-
+const TicketItem = ({ ticket, details, comments }: TicketItemProps) => {
   const detailButton = (
     <Button asChild size={"icon"} variant={"outline"}>
       <Link prefetch href={ticketPath(ticket.id)}>
@@ -49,7 +42,7 @@ const TicketItem = async ({ ticket, details, comments }: TicketItemProps) => {
     </Button>
   );
 
-  const updateButton = isTicketOwner ? (
+  const updateButton = ticket.isOwner ? (
     <Button asChild size={"icon"} variant={"outline"}>
       <Link prefetch href={editTicketPath(ticket.id)}>
         <LucidePencil className="w-4 h-4" />
@@ -57,7 +50,7 @@ const TicketItem = async ({ ticket, details, comments }: TicketItemProps) => {
     </Button>
   ) : null;
 
-  const moreMenu = isTicketOwner ? (
+  const moreMenu = ticket.isOwner ? (
     <TicketMoreMenu
       ticket={ticket}
       trigger={
@@ -115,7 +108,7 @@ const TicketItem = async ({ ticket, details, comments }: TicketItemProps) => {
           )}
         </div>
       </div>
-      {details && <Comments ticketId={ticket.id} comments={comments} />}
+      {comments}
     </div>
   );
 };

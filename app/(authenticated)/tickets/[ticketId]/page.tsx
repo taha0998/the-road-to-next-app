@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Separator } from "@/components/ui/separator";
+import { Comments } from "@/features/comments/components/Comments";
 import { getComments } from "@/features/comments/queries/getComments";
 import { TicketItem } from "@/features/ticket/components/TicketItem";
 import { getTicket } from "@/features/ticket/queries/get-ticket";
@@ -16,7 +17,7 @@ const TicketPage = async ({ params }: TicketPageProps) => {
   const { ticketId } = await params;
   const ticketPromise = getTicket(ticketId);
   const commentsPromise = getComments(ticketId);
-  const [ticket, comments] = await Promise.all([
+  const [ticket, paginatedComments] = await Promise.all([
     ticketPromise,
     commentsPromise,
   ]);
@@ -35,7 +36,16 @@ const TicketPage = async ({ params }: TicketPageProps) => {
       />
       <Separator />
       <div className="w-full flex justify-center animate-fade-in-top pt-4">
-        <TicketItem ticket={ticket} comments={comments} details />
+        <TicketItem
+          ticket={ticket}
+          details
+          comments={
+            <Comments
+              ticketId={ticket.id}
+              paginatedComments={paginatedComments}
+            />
+          }
+        />
       </div>
     </div>
   );
