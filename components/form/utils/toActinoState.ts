@@ -1,11 +1,13 @@
 import { ZodError } from "zod"
 
-export type ActionState = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ActionState<T = any> = {
     status?: "SUCCESS" | "ERROR";
     message: string;
     payload?: FormData;
     fieldError: Record<string, string[] | undefined>;
     timestamp: number;
+    data?: T;
 }
 
 export const EMPTY_ACTION_STATE: ActionState = {
@@ -43,12 +45,14 @@ export const fromErrorToActionState = (error: unknown, formData?: FormData): Act
     }
 }
 
-export const toActionState = (status: ActionState['status'], message: string, formData?: FormData): ActionState => {
+export const toActionState = (status: ActionState['status'], message: string,
+    formData?: FormData, data?: unknown): ActionState => {
     return {
         status,
         message,
         fieldError: {},
         payload: formData,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        data: data
     }
 }

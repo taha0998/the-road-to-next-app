@@ -35,12 +35,12 @@ const useConfirmDialog = ({
     onClick: () => setIsOpen((state) => !state),
   });
 
-  const [actionState, formAction] = useActionState(action, EMPTY_ACTION_STATE);
-
   const handleSuccess = () => {
     setIsOpen(false);
     onSuccess?.(actionState);
   };
+
+  const [actionState, formAction] = useActionState(action, EMPTY_ACTION_STATE);
 
   const dialog = (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
