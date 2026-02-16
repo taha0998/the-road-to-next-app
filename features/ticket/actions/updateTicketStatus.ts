@@ -11,7 +11,6 @@ import { ticketsPath } from "@/lib/paths";
 import { prisma } from "@/lib/prisma";
 
 export const updaeTicketStatus = async (id: string, status: TicketStatus) => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
   const { user } = await getAuthOrRedirect();
 
   try {
