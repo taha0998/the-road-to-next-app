@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {  useConfirmDialog } from "@/components/useConfirmDialog";
+import { useConfirmDialog } from "@/components/useConfirmDialog";
 import { deleteTicket } from "../actions/deleteTicket";
 import { updaeTicketStatus } from "../actions/updateTicketStatus";
 import { TICKET_STATUS_LABELS } from "../constants";

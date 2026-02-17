@@ -22,9 +22,9 @@ import { useActionFeedback } from "./form/hooks/useActionFeedback";
 import { ActionState, EMPTY_ACTION_STATE } from "./form/utils/toActinoState";
 import { Button } from "./ui/button";
 
-type UseConfirmDialogProps = {
+type useConfirmDialogProps = {
   title?: string;
-  description?: string;
+  content?: string;
   action: () => Promise<ActionState>;
   trigger:
     | React.ReactElement<HTMLAttributes<HTMLElement>>
@@ -32,28 +32,28 @@ type UseConfirmDialogProps = {
   onSuccess?: (actionState: ActionState) => void;
 };
 
-const useConfirmDialog = ({
+export const useConfirmDialog = ({
   title = "Are you absolutely sure?",
-  description = "This action cannot be undone. Make sure you understand the consequences",
+  content = "This action cannot be undone. Make sure you understand the consequences.",
   action,
   trigger,
   onSuccess,
-}: UseConfirmDialogProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+}: useConfirmDialogProps) => {
+  const [isOpen, setOpen] = useState(false);
   const [actionState, formAction, isPending] = useActionState(
     action,
     EMPTY_ACTION_STATE,
   );
 
-  const dialogTrigger = cloneElement(
+  const confirmButton = cloneElement(
     typeof trigger === "function" ? trigger(isPending) : trigger,
     {
-      onClick: () => setIsOpen((state) => !state),
+      onClick: () => setOpen((state) => !state),
     },
   );
 
   const toastRef = useRef<string | number | null>(null);
+
   useEffect(() => {
     if (isPending) {
       toastRef.current = toast.loading("Deleting ...");
@@ -81,12 +81,12 @@ const useConfirmDialog = ({
     },
   });
 
-  const dialog = (
-    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+  const confirmDialog = (
+    <AlertDialog open={isOpen} onOpenChange={setOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
+          <AlertDialogDescription>{content}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
@@ -100,7 +100,5 @@ const useConfirmDialog = ({
     </AlertDialog>
   );
 
-  return [dialogTrigger, dialog];
+  return [confirmButton, confirmDialog];
 };
-
-export { useConfirmDialog };

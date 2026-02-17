@@ -79,6 +79,7 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertProps) => {
               (ticket?.bounty ? fromCent(ticket?.bounty) : "")
             }
           />
+          <FieldError actionState={actionState} name="bounty" />
         </div>
       </div>
 
