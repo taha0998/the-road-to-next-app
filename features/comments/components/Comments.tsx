@@ -2,6 +2,7 @@
 import { useState } from "react";
 import CardCompact from "@/components/CardCompact";
 import { Button } from "@/components/ui/button";
+import { PaginationData } from "@/types/pagination";
 import { getComments } from "../queries/getComments";
 import { CommentWithMetada } from "../types";
 import { CommentCreateForm } from "./CommentCreateForm";
@@ -10,14 +11,7 @@ import { CommentItem } from "./CommentItem";
 
 type CommentsProps = {
   ticketId: string;
-  paginatedComments: {
-    list: CommentWithMetada[];
-    metadata: {
-      count: number;
-      hasNext: boolean;
-      cursor?: number;
-    };
-  };
+  paginatedComments: PaginationData<CommentWithMetada>;
 };
 
 const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
@@ -75,12 +69,26 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
             ]}
           />
         ))}
-        {metadata.hasNext && (
+        {metadata.hasNextPage ? (
           <div className="flex flex-col justify-center ml-8">
             <Button variant="ghost" onClick={handleMore}>
               More
             </Button>
           </div>
+        ) : comments.length > 2 ? (
+          <div className="flex justify-end">
+            <span className="text-sm italic float-right">
+              No more comments.
+            </span>
+          </div>
+        ) : (
+          comments.length === 0 && (
+            <div className="flex justify-end">
+              <span className="text-sm italic float-right">
+                No comments yet.
+              </span>
+            </div>
+          )
         )}
       </div>
     </>

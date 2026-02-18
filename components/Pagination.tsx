@@ -7,16 +7,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PaginationData } from "@/types/pagination";
 import { Button } from "./ui/button";
 
 type PaginationObject = {
   page: number;
   size: number;
 };
-export type PaginationMetadata = {
-  count: number;
-  hasNextPage: boolean;
-};
+type PaginationMetadata = PaginationData<unknown>["metadata"];
 
 type PaginationProps = {
   pagination: PaginationObject;
@@ -30,7 +28,7 @@ const Pagination = ({
   paginationMetadata,
 }: PaginationProps) => {
   const count = paginationMetadata.count;
-  const hasNextPage = paginationMetadata.hasNextPage;
+  const hasNext = paginationMetadata.hasNextPage;
   const firstItem = pagination.page * pagination.size + 1;
   const lastItem = firstItem + (pagination.size - 1);
   const fixedLastItem = Math.min(lastItem, count);
@@ -55,7 +53,7 @@ const Pagination = ({
   }, [pagination, onPagination, count, firstItem]);
 
   const nextButton = (
-    <Button variant="outline" disabled={!hasNextPage} onClick={handleNext}>
+    <Button variant="outline" disabled={!hasNext} onClick={handleNext}>
       Next
     </Button>
   );

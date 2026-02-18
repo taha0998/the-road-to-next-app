@@ -1,15 +1,17 @@
 "use client";
 import { useQueryState, useQueryStates } from "nuqs";
 import { useEffect, useRef } from "react";
-import { Pagination, PaginationMetadata } from "@/components/Pagination";
+import { Pagination } from "@/components/Pagination";
+import { PaginationData } from "@/types/pagination";
 import {
   paginationOptions,
   paginationParser,
   searchParser,
 } from "../SearchParams";
+import { TicketWithMetadata } from "../types";
 
 type TicketPaginationProps = {
-  paginationMetadata: PaginationMetadata;
+  paginationMetadata: PaginationData<TicketWithMetadata>["metadata"];
 };
 
 const TicketPagination = ({ paginationMetadata }: TicketPaginationProps) => {
