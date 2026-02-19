@@ -17,6 +17,7 @@ export const getComments = async (ticketId: string, cursor?: string) => {
     let [comments, count] = await prisma.$transaction([
         prisma.comment.findMany({
             where,
+            orderBy: [{ createdAt: "desc" }, { id: "desc" }],
             include: {
                 user: {
                     select: {
@@ -24,8 +25,7 @@ export const getComments = async (ticketId: string, cursor?: string) => {
                     }
                 }
             },
-            orderBy: [{ createdAt: "desc" }, { id: "desc" }],
-            take: take + 1
+            take: take + 1,
         }),
         prisma.comment.count({
             where,
