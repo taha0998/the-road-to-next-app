@@ -4,9 +4,9 @@ import { hash } from '@node-rs/argon2'
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import z from "zod"
-import { ActionState, fromErrorToActionState, toActionState } from "@/components/form/utils/toActinoState";
+import { ActionState, fromErrorToActionState } from "@/components/form/utils/toActinoState";
 import { lucia } from '@/lib/lucia';
-import { homePath } from '@/lib/paths';
+import { ticketsPath } from '@/lib/paths';
 import { prisma } from '@/lib/prisma';
 
 
@@ -70,6 +70,5 @@ export const signUp = async (_actionStae: ActionState, formData: FormData) => {
     } catch (error) {
         return fromErrorToActionState(error, formData)
     }
-    redirect(homePath())
-    return toActionState('SUCCESS', 'Sign up successful');
+    redirect(ticketsPath())
 }

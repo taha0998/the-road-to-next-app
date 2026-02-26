@@ -18,7 +18,6 @@ type CommentsProps = {
 
 const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
   const queryKey = ["comments", ticketId];
-
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey,
@@ -40,13 +39,10 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
   const comments = data.pages.flatMap((page) => page.list);
 
   const queryClient = useQueryClient();
-
   const handleAddComment = () => queryClient.invalidateQueries({ queryKey });
-
   const handleDeleteComment = () => queryClient.invalidateQueries({ queryKey });
 
   const { ref, inView } = useInView();
-
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
