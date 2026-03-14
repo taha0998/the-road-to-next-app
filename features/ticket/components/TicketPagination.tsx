@@ -7,6 +7,8 @@ import {
   paginationOptions,
   paginationParser,
   searchParser,
+  sortOptions,
+  sortParser,
 } from "../SearchParams";
 import { TicketWithMetadata } from "../types";
 
@@ -20,14 +22,22 @@ const TicketPagination = ({ paginationMetadata }: TicketPaginationProps) => {
     paginationOptions,
   );
   const [search] = useQueryState("search", searchParser);
+  const [sortKey] = useQueryStates(sortParser, sortOptions);
 
   const prevSearch = useRef(search);
+  const prevSort = useRef(sortKey);
 
   useEffect(() => {
     if (prevSearch.current === search) return;
     prevSearch.current = search;
     setPagination({ ...pagination, page: 0 });
   }, [pagination, setPagination, prevSearch, search]);
+
+  useEffect(() => {
+    if (prevSort.current === sortKey) return;
+    prevSort.current = sortKey;
+    setPagination({ ...pagination, page: 0 });
+  }, [pagination, setPagination, prevSort, sortKey]);
 
   return (
     <Pagination
