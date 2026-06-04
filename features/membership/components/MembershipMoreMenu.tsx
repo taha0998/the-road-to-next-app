@@ -31,10 +31,13 @@ const MembershipMoreMenu = ({
       organizationId,
       membershipRole: value as MembershipRole,
     });
+
     toast.promise(promise, {
       loading: "Updating role...",
     });
+
     const result = await promise;
+
     if (result.status === "ERROR") {
       toast.error(result.message);
     } else {

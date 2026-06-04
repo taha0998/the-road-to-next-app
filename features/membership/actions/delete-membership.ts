@@ -56,6 +56,8 @@ export const deleteMembership = async (organizationId: string, userId: string) =
         return toActionState('ERROR', 'You can only delete memberships as an admin')
     }
 
+    // Okay: Everything check ...
+
     await prisma.membership.delete({
         where: {
             membershipId: {
@@ -65,5 +67,8 @@ export const deleteMembership = async (organizationId: string, userId: string) =
         }
     })
 
-    return toActionState('SUCCESS', isMyself ? 'You have left the organization' : 'Membership deleted succesfully')
+    return toActionState('SUCCESS',
+        isMyself
+            ? 'You have left the organization'
+            : 'Membership deleted succesfully')
 }
